@@ -1,5 +1,5 @@
 "use client";
-import { TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import React from "react";
 import { articleMocks } from "./Articlemocks";
 import { useQuery } from "@tanstack/react-query";
@@ -29,7 +29,7 @@ export const Article = () => {
   }
   console.log(data);
   return (
-    <>
+    <Box px={10} py={5}>
       <Typography variant="h3" marginBottom={10}>
         {data?.[1].title}
       </Typography>
@@ -45,6 +45,6 @@ export const Article = () => {
       </Typography>
 
       {/* <TextField onChange={handleInputChange} multiline rows={4} fullWidth /> */}
-    </>
+    </Box>
   );
 };
