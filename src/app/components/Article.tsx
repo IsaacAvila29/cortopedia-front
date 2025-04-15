@@ -1,47 +1,44 @@
 "use client";
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import { articleMocks } from "./Articlemocks";
 import { useQuery } from "@tanstack/react-query";
 
-export const Article = ({ id }: { id: number }) => {
+export const Article = ({ id }: { id: string }) => {
   interface Article {
-    id: number;
+    id: string;
     title: string;
     content: string;
   }
 
-  const mocks = false;
+  const fetchArticleById = async (): Promise<Article> => {
+    const res = await fetch(`http://localhost:3000/article/${id}`);
+    if (!res.ok) {
+      throw new Error("Error fetching article");
+    }
+    return res.json();
+  };
 
-  const { data, isLoading } = useQuery<Article[]>({
-    queryKey: ["article"],
-    queryFn: () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          fetch("http://localhost:3000/article")
-            .then((response) => response.json())
-            .then((data) => resolve(mocks ? articleMocks : data))
-            .catch((error) => {
-              console.error("Error fetching articles:", error);
-              resolve([]);
-            });
-        }, 1000);
-      });
-    },
+  const {
+    data: article,
+    isLoading,
+    isError,
+  } = useQuery<Article>({
+    queryKey: ["article", id],
+    queryFn: fetchArticleById,
   });
-  console.log("La data", data);
+
   if (isLoading) {
     return <div>Cargando...</div>;
   }
 
-  if (!data) {
+  if (isError || !article) {
     return <div>Artículo no encontrado</div>;
   }
 
   return (
     <Box px={10} py={5}>
       <Typography variant="h3" marginBottom={10}>
-        {data[1]?.title}
+        {article.title}
       </Typography>
       <Typography
         variant="body1"
@@ -51,7 +48,7 @@ export const Article = ({ id }: { id: number }) => {
         }}
         marginBottom={10}
       >
-        {data[1]?.content}
+        {article.content}
       </Typography>
     </Box>
   );
