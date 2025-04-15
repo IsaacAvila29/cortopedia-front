@@ -31,7 +31,10 @@ export default function TopBar() {
 
           <Box>
             <Button color="inherit" href="/article">
-              Ir a un articulo
+              <Typography color="black" fontSize={20}>
+                {" "}
+                Ir a un articulo
+              </Typography>
             </Button>
           </Box>
         </Toolbar>

@@ -8,10 +8,7 @@ const queryClient = new QueryClient();
 export const page = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <Article />
-      <Article />
-      <Article />
-      <Article />
+      <Article id={3} />
     </QueryClientProvider>
   );
 };

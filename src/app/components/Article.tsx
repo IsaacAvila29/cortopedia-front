@@ -1,10 +1,10 @@
 "use client";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import { articleMocks } from "./Articlemocks";
 import { useQuery } from "@tanstack/react-query";
 
-export const Article = () => {
+export const Article = ({ id }: { id: number }) => {
   interface Article {
     id: number;
     title: string;
@@ -18,7 +18,7 @@ export const Article = () => {
     queryFn: () => {
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(mocks ? articleMocks : articleMocks); //Usar la live data del servidor
+          resolve(mocks ? articleMocks : articleMocks); // Usar la live data del servidor
         }, 1000);
       });
     },
@@ -27,11 +27,17 @@ export const Article = () => {
   if (isLoading) {
     return <div>Cargando...</div>;
   }
-  console.log(data);
+
+  const article = data?.find((article) => article.id === id);
+
+  if (!article) {
+    return <div>Artículo no encontrado</div>;
+  }
+
   return (
     <Box px={10} py={5}>
       <Typography variant="h3" marginBottom={10}>
-        {data?.[1].title}
+        {article.title}
       </Typography>
       <Typography
         variant="body1"
@@ -41,10 +47,8 @@ export const Article = () => {
         }}
         marginBottom={10}
       >
-        {data?.[1].content}
+        {article.content}
       </Typography>
-
-      {/* <TextField onChange={handleInputChange} multiline rows={4} fullWidth /> */}
     </Box>
   );
 };
