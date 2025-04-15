@@ -18,26 +18,30 @@ export const Article = ({ id }: { id: number }) => {
     queryFn: () => {
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(mocks ? articleMocks : articleMocks); // Usar la live data del servidor
+          fetch("http://localhost:3000/article")
+            .then((response) => response.json())
+            .then((data) => resolve(mocks ? articleMocks : data))
+            .catch((error) => {
+              console.error("Error fetching articles:", error);
+              resolve([]);
+            });
         }, 1000);
       });
     },
   });
-
+  console.log("La data", data);
   if (isLoading) {
     return <div>Cargando...</div>;
   }
 
-  const article = data?.find((article) => article.id === id);
-
-  if (!article) {
+  if (!data) {
     return <div>Artículo no encontrado</div>;
   }
 
   return (
     <Box px={10} py={5}>
       <Typography variant="h3" marginBottom={10}>
-        {article.title}
+        {data[1]?.title}
       </Typography>
       <Typography
         variant="body1"
@@ -47,7 +51,7 @@ export const Article = ({ id }: { id: number }) => {
         }}
         marginBottom={10}
       >
-        {article.content}
+        {data[1]?.content}
       </Typography>
     </Box>
   );
