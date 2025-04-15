@@ -11,17 +11,14 @@ export const Article = () => {
     content: string;
   }
 
-  //   const [inputValue, setInputValue] = React.useState("");
-  //   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-  //     setInputValue(event.target.value);
-  //   };
-  //   console.log(inputValue);
+  const mocks = false;
+
   const { data, isLoading } = useQuery<Article[]>({
     queryKey: ["article"],
     queryFn: () => {
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(articleMocks);
+          resolve(mocks ? articleMocks : articleMocks); //Usar la live data del servidor
         }, 1000);
       });
     },
