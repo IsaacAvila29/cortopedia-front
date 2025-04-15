@@ -2,6 +2,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
+import ArticleForm from "./ArticleForm";
 
 export const Article = ({ id }: { id: string }) => {
   interface Article {
@@ -11,7 +12,7 @@ export const Article = ({ id }: { id: string }) => {
   }
 
   const fetchArticleById = async (): Promise<Article> => {
-    const res = await fetch(`http://localhost:3000/article/${id}`);
+    const res = await fetch(`http://localhost:3000/article/${id}`); //TODO, Esto tal vez en un futuro cambie a un endpoint de una API
     if (!res.ok) {
       throw new Error("Error fetching article");
     }
@@ -50,6 +51,8 @@ export const Article = ({ id }: { id: string }) => {
       >
         {article.content}
       </Typography>
+
+      <ArticleForm></ArticleForm>
     </Box>
   );
 };
