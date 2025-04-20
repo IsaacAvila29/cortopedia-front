@@ -1,5 +1,5 @@
 "use client";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import ArticleForm from "./ArticleForm";
@@ -12,7 +12,7 @@ export const Article = ({ id }: { id: string }) => {
   }
 
   const fetchArticleById = async (): Promise<Article> => {
-    const res = await fetch(`http://localhost:3000/article/${id}`); //TODO, Esto tal vez en un futuro cambie a un endpoint de una API
+    const res = await fetch(`http://localhost:3001/article/${id}`); //TODO, Esto tal vez en un futuro cambie a un endpoint de una API
     if (!res.ok) {
       throw new Error("Error fetching article");
     }
@@ -38,6 +38,7 @@ export const Article = ({ id }: { id: string }) => {
 
   return (
     <Box px={10} py={5}>
+      <Button href={`${id}/edit`}>Editar</Button>
       <Typography variant="h3" marginBottom={10}>
         {article.title}
       </Typography>
@@ -51,8 +52,6 @@ export const Article = ({ id }: { id: string }) => {
       >
         {article.content}
       </Typography>
-
-      <ArticleForm></ArticleForm>
     </Box>
   );
 };

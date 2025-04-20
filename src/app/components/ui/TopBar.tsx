@@ -32,7 +32,11 @@ export default function TopBar() {
           <Box>
             <Button color="inherit" href="/article">
               <Typography color="black" fontSize={20}>
-                {" "}
+                Crear un articulo
+              </Typography>
+            </Button>
+            <Button color="inherit" href="/article/1">
+              <Typography color="black" fontSize={20}>
                 Ir a un articulo
               </Typography>
             </Button>
