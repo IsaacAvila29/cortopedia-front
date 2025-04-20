@@ -35,11 +35,6 @@ export default function TopBar() {
                 Crear un articulo
               </Typography>
             </Button>
-            <Button color="inherit" href="/article/1">
-              <Typography color="black" fontSize={20}>
-                Ir a un articulo
-              </Typography>
-            </Button>
           </Box>
         </Toolbar>
       </AppBar>

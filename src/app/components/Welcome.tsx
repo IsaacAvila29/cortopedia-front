@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useAllArticles } from "../hooks/articleHooks";
 
@@ -13,9 +12,23 @@ const ArticlesList = () => {
     return <div>Error al cargar los artículos</div>;
   }
 
+  if (data.length === 0) {
+    return (
+      <div>
+        <Typography variant="h4" marginBottom={2}>
+          ¡De momento no hay artículos disponibles!
+        </Typography>
+        <Typography marginBottom={2}>
+          {" "}
+          Te invitamos a crear un articulo
+        </Typography>
+      </div>
+    );
+  }
+
   return (
     <>
-      <Typography variant="h4" marginBottom={2} marginTop={10}>
+      <Typography variant="h4" marginBottom={2}>
         Estos son los artículos disponibles:
       </Typography>
       <div>
@@ -27,7 +40,11 @@ const ArticlesList = () => {
             >
               <Typography
                 color="blue"
-                style={{ textDecoration: "underline", cursor: "pointer" }}
+                style={{
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                  display: "inline",
+                }}
               >
                 {article.title}
               </Typography>
@@ -42,8 +59,13 @@ const ArticlesList = () => {
 export const Welcome = () => {
   return (
     <Box px={10} py={5}>
-      <Typography variant="h3">Bienvenido a La cortopedia</Typography>
-      <ArticlesList />
+      <center>
+        {" "}
+        <Typography variant="h3">Bienvenido a La cortopedia</Typography>
+      </center>
+      <Box bgcolor={"#f0f0f0"} p={2} borderRadius={2} marginTop={5}>
+        <ArticlesList />
+      </Box>
     </Box>
   );
 };

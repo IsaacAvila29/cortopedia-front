@@ -11,7 +11,6 @@ export function useFetchArticle(id: string) {
   const { setValue } = useForm<ArticleFormProps>();
   const notiftyErrorFetch = () => toast.error("Error al cargar el artículo");
 
-  // Efecto para cargar los datos del artículo si se proporciona un ID
   useEffect(() => {
     if (id) {
       const fetchArticle = async () => {
@@ -21,9 +20,6 @@ export function useFetchArticle(id: string) {
           if (!res.ok) throw new Error("Error al obtener artículo");
           const data = await res.json();
 
-          // Establece los valores iniciales del formulario
-          //   setValue("title", data.title);
-          //   setValue("content", data.content);
           setData(data);
         } catch (err) {
           notiftyErrorFetch();
@@ -41,11 +37,9 @@ export function useFetchArticle(id: string) {
 }
 
 export function useSubmitArticle(id?: string) {
-  const [data, setData] = useState<ArticleFormProps | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { setValue } = useForm<ArticleFormProps>();
-  const notiftyErrorFetch = () => toast.error("Error al cargar el artículo");
+
   const notiftyCreate = () => toast.success("Artículo guardado correctamente");
   const notiftyEdit = () => toast.success("Artículo editado correctamente");
   const notiftyError = () => toast.error("Error al guardar el artículo");
