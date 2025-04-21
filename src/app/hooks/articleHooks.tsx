@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ArticleFormProps } from "../components/ArticleForm";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
 
 export function useFetchArticle(id: string) {
