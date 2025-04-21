@@ -48,8 +48,9 @@ export const ArticleForm = ({ id }: { id?: string }) => {
           variant="outlined"
           fullWidth
           multiline
-          rows={4}
+          rows={10} // Incrementar el número de filas para abarcar más altura
           margin="normal"
+          inputProps={{ style: { height: "auto" } }} // Permitir que el campo crezca dinámicamente
         />
         <Button
           type="submit"
