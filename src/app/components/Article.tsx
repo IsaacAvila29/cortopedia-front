@@ -2,7 +2,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import ArticleForm from "./ArticleForm";
 import Image from "./ui/Image";
 
 export const Article = ({ id }: { id: string }) => {
@@ -11,6 +10,7 @@ export const Article = ({ id }: { id: string }) => {
     title: string;
     content: string;
     image_url: string;
+    image_description?: string;
   }
 
   const fetchArticleById = async (): Promise<Article> => {
@@ -54,7 +54,7 @@ export const Article = ({ id }: { id: string }) => {
         <Typography
           variant="body1"
           sx={{
-            whiteSpace: "pre-wrap", // Importante para respetar saltos de línea
+            whiteSpace: "pre-wrap",
             textAlign: "justify",
           }}
           marginBottom={10}
@@ -66,7 +66,7 @@ export const Article = ({ id }: { id: string }) => {
         {article.image_url && (
           <Image
             src={article.image_url}
-            descriptionImage="FOTO REAL DE SAGITARIO A"
+            descriptionImage={article.image_description}
           />
         )}
       </Box>
