@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { useAllArticles } from "../hooks/articleHooks";
+import Image from "./ui/Image";
 
 const ArticlesList = () => {
   const { data, isLoading, isError } = useAllArticles();
@@ -60,7 +61,6 @@ export const Welcome = () => {
   return (
     <Box px={10} py={5}>
       <center>
-        {" "}
         <Typography variant="h3">Bienvenido a La cortopedia</Typography>
       </center>
       <Box bgcolor={"#f0f0f0"} p={2} borderRadius={2} marginTop={5}>
