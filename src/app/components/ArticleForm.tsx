@@ -17,6 +17,7 @@ export interface ArticleFormProps {
   content: string;
   image_url?: string;
   image_description?: string;
+  bibliography?: string;
 }
 
 export const ArticleForm = ({ id }: { id?: string }) => {
@@ -196,6 +197,7 @@ export const ArticleForm = ({ id }: { id?: string }) => {
             margin="normal"
             inputProps={{ style: { height: "auto" } }}
           />
+
           <Button
             type="submit"
             variant="contained"
