@@ -147,6 +147,7 @@ export const ArticleForm = ({ id }: { id?: string }) => {
       setValue("title", data.title);
       setValue("content", data.content);
       setValue("image_url", data.image_url);
+      setValue("image_description", data.image_description);
       console.log("EL DE DATA", data.image_url);
     }
   }, [data, setValue]);

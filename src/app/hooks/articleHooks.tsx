@@ -92,3 +92,22 @@ export function useAllArticles() {
     isError,
   };
 }
+
+export function useSearchArticles(title: string) {
+  const fetchArticles = async () => {
+    const res = await fetch(`http://localhost:3001/article?title=${title}`);
+    if (!res.ok) {
+      throw new Error("Error fetching articles");
+    }
+    return res.json();
+  };
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["articles", title],
+    queryFn: fetchArticles,
+  });
+  return {
+    data,
+    isLoading,
+    isError,
+  };
+}

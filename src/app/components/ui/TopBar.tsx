@@ -1,7 +1,18 @@
 "use client";
 
-import { AppBar, Toolbar, Typography, Box, Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Button,
+  Autocomplete,
+  TextField,
+} from "@mui/material";
 import Logo from "./Logo";
+import { Article } from "../Article";
+import ArticleSearch from "../ArticleSearch";
 
 export default function TopBar() {
   return (
@@ -28,7 +39,7 @@ export default function TopBar() {
               La Cortopedia
             </Typography>
           </Box>
-
+          <ArticleSearch />
           <Box>
             <Button color="inherit" href="/article">
               <Typography color="black" fontSize={20}>

@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { useAllArticles } from "../hooks/articleHooks";
-import Image from "./ui/Image";
 
 const ArticlesList = () => {
   const { data, isLoading, isError } = useAllArticles();
@@ -20,7 +19,6 @@ const ArticlesList = () => {
           ¡De momento no hay artículos disponibles!
         </Typography>
         <Typography marginBottom={2}>
-          {" "}
           Te invitamos a crear un articulo
         </Typography>
       </div>
