@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useFetchArticle, useSubmitArticle } from "../hooks/articleHooks";
 import { Toaster, toast } from "react-hot-toast";
@@ -205,7 +205,7 @@ export const ArticleForm = ({ id }: { id?: string }) => {
             sx={{ marginTop: 2 }}
             disabled={loadingSubmit}
           >
-            {loadingSubmit ? "Guardando..." : id ? "Editar" : "Crear"}
+            {loadingSubmit ? "Guardando..." : id ? "Guardar edicion" : "Crear"}
           </Button>
           {errorSubmit && (
             <Box style={{ color: "red" }}>Error: {errorSubmit}</Box>

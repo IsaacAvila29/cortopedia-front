@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { ArticleFormProps } from "../components/ArticleForm";
 import toast from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
+import { BibliographyFormProps } from "../components/Bibliography/BibliographyForm";
 
 export function useFetchArticle(id: string) {
   const [data, setData] = useState<ArticleFormProps | null>(null);
@@ -65,6 +66,37 @@ export function useSubmitArticle(id?: string) {
     } catch (err) {
       id ? notiftyErrorEdit() : notiftyError();
       setError("No se pudo guardar el artículo");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { onSubmit, loading, error };
+}
+
+export function useSubmitBibliography() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const notiftyCreate = () =>
+    toast.success("Bibliografía guardada correctamente");
+  const notiftyError = () => toast.error("Error al guardar la bibliografía");
+
+  const onSubmit = async (data: BibliographyFormProps) => {
+    setLoading(true);
+    try {
+      const res = await fetch("http://localhost:3001/bibliography", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error("Error al guardar bibliografía");
+      notiftyCreate();
+      console.log("Bibliografía creada");
+    } catch (err) {
+      notiftyError();
+      setError("No se pudo guardar la bibliografía");
       console.error(err);
     } finally {
       setLoading(false);

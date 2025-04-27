@@ -11,6 +11,7 @@ export const Article = ({ id }: { id: string }) => {
     content: string;
     image_url: string;
     image_description?: string;
+    bibliography: string;
   }
 
   const fetchArticleById = async (): Promise<Article> => {
@@ -60,6 +61,9 @@ export const Article = ({ id }: { id: string }) => {
           marginBottom={10}
         >
           {article.content}
+        </Typography>
+        <Typography variant="h5" marginBottom={10}>
+          Referencias: {article.bibliography}
         </Typography>
       </Box>
       <Box marginLeft={5} marginTop={20}>

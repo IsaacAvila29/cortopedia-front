@@ -2,17 +2,57 @@
 import React, { useMemo, useState } from "react";
 import {
   Box,
-  FormControl,
   FormControlLabel,
-  FormLabel,
   Radio,
   RadioGroup,
   TextField,
   Typography,
+  Button,
 } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { useSubmitBibliography } from "@/app/hooks/articleHooks";
 
-const BibliographyForm = () => {
-  const [bibliographyType, setBibliographyType] = useState("web");
+export interface BibliographyFormProps {
+  id: string;
+  author?: string;
+  year?: string;
+  title?: string;
+  date?: string;
+  publisher?: string;
+  websiteName?: string;
+  url?: string;
+}
+
+const formatBibliography = (
+  type: string,
+  data: BibliographyFormProps
+): string => {
+  if (type === "web") {
+    return `${data.author || ""} (${data.year || ""}). ${data.title || ""}. ${
+      data.websiteName || ""
+    }. ${data.url || ""}`;
+  }
+
+  if (type === "book") {
+    return `${data.author || ""} (${data.year || ""}). ${data.title || ""}. ${
+      data.publisher || ""
+    }.`;
+  }
+
+  return "";
+};
+
+const BibliographyForm = ({ id }: { id?: string }) => {
+  const [bibliographyType, setBibliographyType] = useState<"web" | "book">(
+    "web"
+  );
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<BibliographyFormProps>();
 
   const subtitle = useMemo(() => {
     return bibliographyType === "web"
@@ -20,67 +60,107 @@ const BibliographyForm = () => {
       : "Estamos tomando las referencias de un libro";
   }, [bibliographyType]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBibliographyType(event.target.value);
+  const {
+    onSubmit,
+    loading: loadingSubmit,
+    error: errorSubmit,
+  } = useSubmitBibliography();
+
+  const handleBibliographyTypeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setBibliographyType(event.target.value as "web" | "book");
+    setPreview(null);
   };
 
-  const BibliographyBook = () => (
-    <>
-      <TextField
-        label="Autor/a (Apellido, Inicial)"
-        fullWidth
-        margin="normal"
-      />
-      <TextField label="Año de publicación" fullWidth margin="normal" />
-      <TextField label="Título del libro" fullWidth margin="normal" />
-      <TextField label="Editorial" fullWidth margin="normal" />
-    </>
-  );
-
-  const BibliographyWeb = () => (
-    <>
-      <TextField label="Autor/a o nombre del sitio" fullWidth margin="normal" />
-      <TextField label="Fecha (Año, día mes)" fullWidth margin="normal" />
-      <TextField label="Título de la página" fullWidth margin="normal" />
-      <TextField label="Nombre del sitio web" fullWidth margin="normal" />
-      <TextField label="URL" fullWidth margin="normal" />
-    </>
-  );
-
   return (
-    <Box>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="h5" gutterBottom>
         Escribe tus referencias:
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
         {subtitle}
       </Typography>
-      <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
-        <Box sx={{ flex: 2 }}>
-          {bibliographyType === "web" ? (
-            <BibliographyWeb />
-          ) : (
-            <BibliographyBook />
-          )}
-        </Box>
-        <FormControl sx={{ flex: 1 }}>
-          <FormLabel id="bibliography-type-label">Tipo de referencia</FormLabel>
-          <RadioGroup
-            aria-labelledby="bibliography-type-label"
-            value={bibliographyType}
-            name="bibliography-type"
-            onChange={handleChange}
-          >
-            <FormControlLabel
-              value="web"
-              control={<Radio />}
-              label="Página Web"
+
+      <RadioGroup
+        row
+        value={bibliographyType}
+        onChange={handleBibliographyTypeChange}
+        aria-labelledby="bibliography-type-label"
+      >
+        <FormControlLabel value="web" control={<Radio />} label="Página Web" />
+        <FormControlLabel value="book" control={<Radio />} label="Libro" />
+      </RadioGroup>
+
+      <Box sx={{ mt: 2 }}>
+        <TextField
+          label={
+            bibliographyType === "web"
+              ? "Autor/a o nombre del sitio"
+              : "Autor/a (Apellido, Inicial)"
+          }
+          fullWidth
+          margin="normal"
+          {...register("author")}
+        />
+        <TextField
+          label={
+            bibliographyType === "web"
+              ? "Fecha (Año, día mes)"
+              : "Año de publicación"
+          }
+          fullWidth
+          margin="normal"
+          {...register("year")}
+        />
+        <TextField
+          label={
+            bibliographyType === "web"
+              ? "Título de la página"
+              : "Título del libro"
+          }
+          fullWidth
+          margin="normal"
+          {...register("title")}
+        />
+        <TextField value={id} {...register("id")} />
+
+        {bibliographyType === "web" ? (
+          <>
+            <TextField
+              label="Nombre del sitio web"
+              fullWidth
+              margin="normal"
+              {...register("websiteName")}
             />
-            <FormControlLabel value="book" control={<Radio />} label="Libro" />
-          </RadioGroup>
-        </FormControl>
+            <TextField
+              label="URL"
+              fullWidth
+              margin="normal"
+              {...register("url")}
+            />
+          </>
+        ) : (
+          <TextField
+            label="Editorial"
+            fullWidth
+            margin="normal"
+            {...register("publisher")}
+          />
+        )}
       </Box>
-    </Box>
+
+      <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+        Guardar referencia
+      </Button>
+
+      {preview && (
+        <Box mt={3}>
+          <Typography variant="subtitle2">Referencia generada:</Typography>
+          <Typography>{preview}</Typography>
+        </Box>
+      )}
+    </form>
   );
 };
 
