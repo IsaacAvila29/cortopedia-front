@@ -43,7 +43,7 @@ export default function EditPage({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <BibliographyForm article_id={id} id={id} />
+      <BibliographyForm article_id={id} id={bibliography?.id} />
       <Toaster />
     </>
   );

@@ -58,35 +58,35 @@ const BibliographyForm = ({
     error: errorSubmit,
   } = useSubmitBibliography(id || "");
 
-  const {
-    data,
-    loading: loadingFetch,
-    error: errorFetch,
-  } = useFetchBibliography(id || "");
+  if (id) {
+    const {
+      data,
+      loading: loadingFetch,
+      error: errorFetch,
+    } = useFetchBibliography(article_id || "");
 
-  useEffect(() => {
-    if (data) {
-      setValue("author", data.author);
-      setValue("year", data.year);
-      setValue("title", data.title);
-      setValue("date", data.date);
-      setValue("publisher", data.publisher);
-      setValue("websiteName", data.websiteName);
-      setValue("url", data.url);
-      setValue("article_id", data.article_id);
-      setBibliographyType(data.websiteName ? "web" : "book");
-    }
-  }, [data, setValue]);
-
+    useEffect(() => {
+      if (data) {
+        setValue("author", data.author);
+        setValue("year", data.year);
+        setValue("title", data.title);
+        setValue("date", data.date);
+        setValue("publisher", data.publisher);
+        setValue("websiteName", data.websiteName);
+        setValue("url", data.url);
+        setValue("article_id", data.article_id);
+        setBibliographyType(data.websiteName ? "web" : "book");
+      }
+    }, [data, setValue]);
+    if (loadingFetch) return <p>Cargando...</p>;
+    if (errorFetch) return <p>Error al cargar la bibliografía</p>;
+  }
   const handleBibliographyTypeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setBibliographyType(event.target.value as "web" | "book");
     setPreview(null);
   };
-
-  if (loadingFetch) return <p>Cargando...</p>;
-  if (errorFetch) return <p>Error al cargar la bibliografía</p>;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
