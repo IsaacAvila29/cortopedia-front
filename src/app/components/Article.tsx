@@ -11,13 +11,29 @@ export const Article = ({ id }: { id: string }) => {
     content: string;
     image_url: string;
     image_description?: string;
-    bibliography: string;
+  }
+  interface Bibliography {
+    article_id: string;
+    author?: string;
+    year?: string;
+    title?: string;
+    date?: string;
+    publisher?: string;
+    websiteName?: string;
+    url?: string;
   }
 
   const fetchArticleById = async (): Promise<Article> => {
     const res = await fetch(`http://localhost:3001/article/${id}`); //TODO, Esto tal vez en un futuro cambie a un endpoint de una API
     if (!res.ok) {
       throw new Error("Error fetching article");
+    }
+    return res.json();
+  };
+  const fetchBiblographyById = async (): Promise<Bibliography> => {
+    const res = await fetch(`http://localhost:3001/bibliography/${id}`); //TODO, Esto tal vez en un futuro cambie a un endpoint de una API
+    if (!res.ok) {
+      throw new Error("Error fetching bibliography");
     }
     return res.json();
   };
@@ -30,6 +46,50 @@ export const Article = ({ id }: { id: string }) => {
     queryKey: ["article", id],
     queryFn: fetchArticleById,
   });
+
+  const {
+    data: bibliography,
+    isLoading: isLoadingBibliography,
+    isError: isErrorBibliography,
+  } = useQuery<Bibliography>({
+    queryKey: ["bibliography", id],
+    queryFn: fetchBiblographyById,
+  });
+
+  console.log("BIBLIOGRAFIAS", bibliography);
+
+  const Bibliographies = () => {
+    if (isLoadingBibliography) {
+      return <div>Cargando...</div>;
+    }
+    if (isErrorBibliography || !bibliography) {
+      return <div>Bibliografía no encontrada</div>;
+    }
+    const formatBibliography = (bibliography: Bibliography) => {
+      const parts = [
+        bibliography.author,
+        bibliography.year ? `(${bibliography.year})` : null,
+        bibliography.title,
+        bibliography.publisher,
+        bibliography.websiteName,
+      ];
+      const formattedText = parts.filter(Boolean).join(". ");
+      return (
+        <>
+          {formattedText}
+          {bibliography.url && (
+            <>
+              .{" "}
+              <a href={bibliography.url} target="_blank">
+                {bibliography.url}
+              </a>
+            </>
+          )}
+        </>
+      );
+    };
+    return <Typography>{formatBibliography(bibliography)}</Typography>;
+  };
 
   if (isLoading) {
     return <div>Cargando...</div>;
@@ -63,7 +123,18 @@ export const Article = ({ id }: { id: string }) => {
           {article.content}
         </Typography>
         <Typography variant="h5" marginBottom={10}>
-          Referencias: {article.bibliography}
+          {bibliography ? (
+            <>
+              <Bibliographies />
+              <Button href={`/bibliography/${id}/edit`}>
+                Editar la bibliografía
+              </Button>
+            </>
+          ) : (
+            <>
+              ¿Deseas añadir una bibliografía? <br /> Haz click en editar!
+            </>
+          )}
         </Typography>
       </Box>
       <Box marginLeft={5} marginTop={20}>

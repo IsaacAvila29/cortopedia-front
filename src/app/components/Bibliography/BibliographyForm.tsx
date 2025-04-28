@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
   FormControlLabel,
@@ -10,10 +10,14 @@ import {
   Button,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useSubmitBibliography } from "@/app/hooks/articleHooks";
+import {
+  useFetchBibliography,
+  useSubmitBibliography,
+} from "@/app/hooks/articleHooks";
 
 export interface BibliographyFormProps {
-  id: string;
+  id?: string;
+  article_id: string;
   author?: string;
   year?: string;
   title?: string;
@@ -23,26 +27,13 @@ export interface BibliographyFormProps {
   url?: string;
 }
 
-const formatBibliography = (
-  type: string,
-  data: BibliographyFormProps
-): string => {
-  if (type === "web") {
-    return `${data.author || ""} (${data.year || ""}). ${data.title || ""}. ${
-      data.websiteName || ""
-    }. ${data.url || ""}`;
-  }
-
-  if (type === "book") {
-    return `${data.author || ""} (${data.year || ""}). ${data.title || ""}. ${
-      data.publisher || ""
-    }.`;
-  }
-
-  return "";
-};
-
-const BibliographyForm = ({ id }: { id?: string }) => {
+const BibliographyForm = ({
+  article_id,
+  id,
+}: {
+  article_id?: string;
+  id?: string;
+}) => {
   const [bibliographyType, setBibliographyType] = useState<"web" | "book">(
     "web"
   );
@@ -51,6 +42,7 @@ const BibliographyForm = ({ id }: { id?: string }) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<BibliographyFormProps>();
 
@@ -64,7 +56,27 @@ const BibliographyForm = ({ id }: { id?: string }) => {
     onSubmit,
     loading: loadingSubmit,
     error: errorSubmit,
-  } = useSubmitBibliography();
+  } = useSubmitBibliography(id || "");
+
+  const {
+    data,
+    loading: loadingFetch,
+    error: errorFetch,
+  } = useFetchBibliography(id || "");
+
+  useEffect(() => {
+    if (data) {
+      setValue("author", data.author);
+      setValue("year", data.year);
+      setValue("title", data.title);
+      setValue("date", data.date);
+      setValue("publisher", data.publisher);
+      setValue("websiteName", data.websiteName);
+      setValue("url", data.url);
+      setValue("article_id", data.article_id);
+      setBibliographyType(data.websiteName ? "web" : "book");
+    }
+  }, [data, setValue]);
 
   const handleBibliographyTypeChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -72,6 +84,9 @@ const BibliographyForm = ({ id }: { id?: string }) => {
     setBibliographyType(event.target.value as "web" | "book");
     setPreview(null);
   };
+
+  if (loadingFetch) return <p>Cargando...</p>;
+  if (errorFetch) return <p>Error al cargar la bibliografía</p>;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -104,6 +119,10 @@ const BibliographyForm = ({ id }: { id?: string }) => {
           {...register("author")}
         />
         <TextField
+          {...register("article_id", { value: article_id })}
+          style={{ display: "none" }}
+        />
+        <TextField
           label={
             bibliographyType === "web"
               ? "Fecha (Año, día mes)"
@@ -123,7 +142,6 @@ const BibliographyForm = ({ id }: { id?: string }) => {
           margin="normal"
           {...register("title")}
         />
-        <TextField value={id} {...register("id")} />
 
         {bibliographyType === "web" ? (
           <>
@@ -151,8 +169,10 @@ const BibliographyForm = ({ id }: { id?: string }) => {
       </Box>
 
       <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
-        Guardar referencia
+        {loadingSubmit ? "Guardando..." : id ? "Guardar edición" : "Crear"}
       </Button>
+
+      {errorSubmit && <Box style={{ color: "red" }}>Error: {errorSubmit}</Box>}
 
       {preview && (
         <Box mt={3}>

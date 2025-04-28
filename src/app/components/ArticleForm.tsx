@@ -13,6 +13,7 @@ import { supabase } from "../supabase/supabaseClient";
 import Image from "./ui/Image";
 
 export interface ArticleFormProps {
+  id?: string;
   title: string;
   content: string;
   image_url?: string;
@@ -197,7 +198,10 @@ export const ArticleForm = ({ id }: { id?: string }) => {
             margin="normal"
             inputProps={{ style: { height: "auto" } }}
           />
-
+          <Button href={`/bibliography/${data?.id}`}>
+            Ajustar Bibliografia
+          </Button>
+          <br></br>
           <Button
             type="submit"
             variant="contained"
