@@ -1,10 +1,14 @@
 "use client";
-import ArticleForm from "@/app/components/ArticleForm";
+import React from "react";
 import BibliographyForm from "@/app/components/Bibliography/BibliographyForm";
 import { useQuery } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 
-export default function EditPage({ params }: { params: { id: string } }) {
+export default function EditPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   interface Bibliography {
     article_id: string;
     author?: string;
@@ -17,7 +21,7 @@ export default function EditPage({ params }: { params: { id: string } }) {
     id?: string;
   }
 
-  const { id } = params; // Obtén el id directamente de params
+  const { id } = React.use(params); // Desenvuelve el Promise para obtener el id
 
   const fetchBibliographyById = async (): Promise<Bibliography> => {
     const res = await fetch(`http://localhost:3001/bibliography/${id}`); //TODO, Esto tal vez en un futuro cambie a un endpoint de una API
@@ -35,6 +39,7 @@ export default function EditPage({ params }: { params: { id: string } }) {
     queryKey: ["bibliography", id],
     queryFn: fetchBibliographyById,
   });
+
   console.log("El ID de la pagina es", id);
   console.log("El ID de la bibliografía es", bibliography?.id);
 

@@ -199,7 +199,7 @@ export const ArticleForm = ({ id }: { id?: string }) => {
             inputProps={{ style: { height: "auto" } }}
           />
           <Button href={`/bibliography/${data?.id}`}>
-            Ajustar Bibliografia
+            Crear nueva bibliografía
           </Button>
           <br></br>
           <Button
