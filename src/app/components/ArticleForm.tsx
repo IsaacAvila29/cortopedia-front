@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useFetchArticle, useSubmitArticle } from "../hooks/articleHooks";
 import { Toaster, toast } from "react-hot-toast";
@@ -13,10 +13,12 @@ import { supabase } from "../supabase/supabaseClient";
 import Image from "./ui/Image";
 
 export interface ArticleFormProps {
+  id?: string;
   title: string;
   content: string;
   image_url?: string;
   image_description?: string;
+  bibliography?: string;
 }
 
 export const ArticleForm = ({ id }: { id?: string }) => {
@@ -196,6 +198,10 @@ export const ArticleForm = ({ id }: { id?: string }) => {
             margin="normal"
             inputProps={{ style: { height: "auto" } }}
           />
+          <Button href={`/bibliography/${data?.id}`}>
+            Crear nueva bibliografía
+          </Button>
+          <br></br>
           <Button
             type="submit"
             variant="contained"
@@ -203,7 +209,7 @@ export const ArticleForm = ({ id }: { id?: string }) => {
             sx={{ marginTop: 2 }}
             disabled={loadingSubmit}
           >
-            {loadingSubmit ? "Guardando..." : id ? "Editar" : "Crear"}
+            {loadingSubmit ? "Guardando..." : id ? "Guardar edicion" : "Crear"}
           </Button>
           {errorSubmit && (
             <Box style={{ color: "red" }}>Error: {errorSubmit}</Box>
