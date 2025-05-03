@@ -3,6 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import Image from "./ui/Image";
+import Text from "./ui/Text";
 
 export const Article = ({ id }: { id: string }) => {
   interface Article {
@@ -109,10 +110,10 @@ export const Article = ({ id }: { id: string }) => {
     >
       <Box flex={1}>
         <Button href={`${id}/edit`}>Editar</Button>
-        <Typography variant="h3" marginBottom={10}>
+        <Text variant="h3" marginBottom={10}>
           {article.title}
-        </Typography>
-        <Typography
+        </Text>
+        <Text
           variant="body1"
           sx={{
             whiteSpace: "pre-wrap",
@@ -121,7 +122,7 @@ export const Article = ({ id }: { id: string }) => {
           marginBottom={10}
         >
           {article.content}
-        </Typography>
+        </Text>
         <Typography variant="h5" marginBottom={10}>
           {bibliography ? (
             <>
