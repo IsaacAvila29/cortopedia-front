@@ -110,9 +110,9 @@ export const Article = ({ id }: { id: string }) => {
     >
       <Box flex={1}>
         <Button href={`${id}/edit`}>Editar</Button>
-        <Text variant="h3" marginBottom={10}>
+        <Typography variant="h3" marginBottom={10}>
           {article.title}
-        </Text>
+        </Typography>
         <Text
           variant="body1"
           sx={{
