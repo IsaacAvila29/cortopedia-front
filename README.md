@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📚 Cortopedia
 
-## Getting Started
+> Enciclopedia colaborativa orientada a notas académicas públicas.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 📖 Descripción
+
+Cortopedia es un proyecto fullstack cuyo objetivo es transformar apuntes personales en artículos estructurados con formato tipo enciclopedia.
+
+Nace como una solución a la típica situación académica de compartir apuntes entre compañeros. En lugar de enviar archivos o fotos repetidamente, los contenidos se centralizan en una plataforma pública y organizada.
+
+Más allá de ser un repositorio de notas, Cortopedia también funciona como:
+
+* 🧠 Herramienta de organización del conocimiento
+* 🌐 Biblioteca personal pública
+* 💻 Proyecto de demostración técnica fullstack
+
+---
+
+## 🎯 Objetivos del Proyecto
+
+* Convertir notas de clase en artículos estructurados.
+* Facilitar el acceso público a contenido académico.
+* Practicar arquitectura backend y frontend moderna.
+* Aplicar buenas prácticas de desarrollo profesional.
+
+---
+
+## 🛠️ Stack Tecnológico
+
+### Frontend
+
+* React
+* React Query
+* React Hook Form
+* Material UI
+
+### Backend
+
+* NestJS
+
+### Base de Datos
+
+* Supabase
+
+---
+
+## ✨ Funcionalidades
+
+* Autenticación de usuarios
+* Creación y edición de artículos
+* Visualización pública de artículos
+* Sistema de favoritos
+* Layout con navegación lateral (sidebar)
+* Arquitectura desacoplada frontend/backend
+
+---
+
+## 🧱 Arquitectura
+
+Cortopedia sigue una arquitectura cliente-servidor:
+
+```
+Frontend (React)
+        ↓
+Backend API (NestJS)
+        ↓
+Base de datos (Supabase)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+El frontend consume endpoints REST del backend, el cual se encarga de la lógica de negocio y la comunicación con la base de datos.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Estado del Proyecto
 
-## Learn More
+Pausado, actualmente tengo mucho trabajo, si por ahi hay alguien que quiere contribuir, que sepa que el proyecto es mio y que no le pagaré, teniendo eso en cuenta, adelante.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔮 Roadmap (Ideas Futuras)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* Sistema de categorías
+* Búsqueda avanzada
+* Editor enriquecido (Markdown o WYSIWYG)
+* Versionado de artículos
+* Comentarios
+* Deploy público
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📌 Filosofía
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Cortopedia no busca reemplazar Wikipedia, sino funcionar como una biblioteca personal pública estructurada.
+
+El proceso de escribir para que otros entiendan mejora la comprensión propia. Documentar es aprender dos veces.
+
+
