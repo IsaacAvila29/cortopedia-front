@@ -46,16 +46,6 @@ Más allá de ser un repositorio de notas, Cortopedia también funciona como:
 
 ---
 
-## ✨ Funcionalidades
-
-* Autenticación de usuarios
-* Creación y edición de artículos
-* Visualización pública de artículos
-* Sistema de favoritos
-* Layout con navegación lateral (sidebar)
-* Arquitectura desacoplada frontend/backend
-
----
 
 ## 🧱 Arquitectura
 
